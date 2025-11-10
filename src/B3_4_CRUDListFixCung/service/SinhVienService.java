@@ -29,6 +29,24 @@ public class SinhVienService {
     public List<SinhVien> getListSinhVien() {
         return listSinhVien;
     }
+
+    // add & update & delete
+    public void addSinhVien(SinhVien sv) {
+        listSinhVien.add(sv);
+    }
+
+    public void updateSinhVien(int index, SinhVien sv) {
+        listSinhVien.set(index, sv);
+    }
+
+    public void deleteSinhVien(int index) {
+        listSinhVien.remove(index);
+    }
     
+    public void sapXep(){
+        listSinhVien.sort((o1, o2) -> {
+            return o1.getTenSV().compareTo(o2.getTenSV());
+        });
+    }
 
 }

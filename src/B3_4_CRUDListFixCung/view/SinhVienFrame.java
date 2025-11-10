@@ -31,6 +31,8 @@ public class SinhVienFrame extends javax.swing.JFrame {
         listSV = svService.getListSinhVien(); // GAN 5 PHAN TU CHO LIST BEN FRAME
         dtm = (DefaultTableModel) tbHienThi.getModel(); // ep kieu 2 loai table 
         showDataTable(listSV);
+        // detail 
+        detailSinhVien(4);
     }
 
     // khi nao can hien thi du lieu len table thi goi ham nay 
@@ -43,6 +45,40 @@ public class SinhVienFrame extends javax.swing.JFrame {
                 sv.getMaSV(), sv.getTenSV(), sv.getTuoiSV(), sv.isGioiTinh(), sv.getDiaChi()
             });
         }
+    }
+
+    // index: vi tri cua mang 
+    // mang bat dau 0 
+    private void detailSinhVien(int index) {
+        // B1: Lay ra gia tri tai vi tri dang chon
+        SinhVien sv1 = listSV.get(index);
+        // arr[i]
+        // B2: set gia tri cho tung o input 
+        txtMa.setText(sv1.getMaSV());
+        txtDiaChi.setText(sv1.getDiaChi());
+        txtTen.setText(sv1.getTenSV());
+        // sv.getTuoi => int 
+        // can String => int -> String
+        txtTuoi.setText(sv1.getTuoiSV() + "");
+        // Gioi tinh
+        boolean gt = sv1.isGioiTinh();
+        if (gt) {
+            rdNam.setSelected(true);
+        } else {
+            rdNu.setSelected(true);
+        }
+    }
+
+    // get Form data: lay toan bo du lieu khi nhap tu form 
+    public SinhVien getFormData() {
+        // B1: Lay toan bo du lieu tu ban phim nhap trong form
+        String maSV = txtMa.getText();
+        String tenSV = txtTen.getText();
+        int tuoi = Integer.valueOf(txtTuoi.getText());
+        String diaChi = txtDiaChi.getText();
+        boolean gioiTinh = rdNam.isSelected();
+        // B2: Tao ra doi tuong SV va return 
+        return new SinhVien(maSV, tenSV, tuoi, diaChi, gioiTinh);
     }
 
     /**
@@ -102,12 +138,32 @@ public class SinhVienFrame extends javax.swing.JFrame {
         rdNu.setText("Nữ");
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnRemove.setText("Remove");
+        btnRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveActionPerformed(evt);
+            }
+        });
 
         btnSort.setText("Sort");
+        btnSort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSortActionPerformed(evt);
+            }
+        });
 
         btnClean.setText("Clean");
         btnClean.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +187,11 @@ public class SinhVienFrame extends javax.swing.JFrame {
                 "MSSV", "Tên", "Tuổi", "Giới tính", "Địa chỉ"
             }
         ));
+        tbHienThi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbHienThiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbHienThi);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -258,6 +319,38 @@ public class SinhVienFrame extends javax.swing.JFrame {
         txtSearch.setText("");
         rdNam.setSelected(true);
     }//GEN-LAST:event_btnCleanActionPerformed
+
+    private void tbHienThiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHienThiMouseClicked
+        // B1: Lay ra index cua mang 
+        int index = tbHienThi.getSelectedRow();
+        // B2: Goi ham detail
+        detailSinhVien(index);
+    }//GEN-LAST:event_tbHienThiMouseClicked
+
+    private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
+        // B1: Lay ra index cua mang 
+        int index = tbHienThi.getSelectedRow();
+        // B2: Goi ham xoa sv
+        svService.deleteSinhVien(index);
+        // B3: Goi lai ham show table
+        showDataTable(listSV);
+    }//GEN-LAST:event_btnRemoveActionPerformed
+
+    private void btnSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortActionPerformed
+        svService.sapXep();
+        showDataTable(listSV);
+    }//GEN-LAST:event_btnSortActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int index = tbHienThi.getSelectedRow();
+        svService.updateSinhVien(index, getFormData());
+        showDataTable(listSV);
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        svService.addSinhVien(getFormData());
+        showDataTable(listSV);
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
