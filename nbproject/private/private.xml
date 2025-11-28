@@ -4,6 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/hangnt/Documents/Poly/MOB1024_SD21201_BL2_FA25/src/B9_JDBC/view/GiangVienFrame.java</file>
+            <file>file:/Users/hangnt/Documents/Poly/MOB1024_SD21201_BL2_FA25/src/B9_JDBC/util/DBConnect.java</file>
+            <file>file:/Users/hangnt/Documents/Poly/MOB1024_SD21201_BL2_FA25/src/B9_JDBC/entity/GiangVien.java</file>
             <file>file:/Users/hangnt/Documents/Poly/MOB1024_SD21201_BL2_FA25/src/B9_JDBC/repository/GiangVienRepository.java</file>
         </group>
     </open-files>
